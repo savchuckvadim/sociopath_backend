@@ -26,7 +26,7 @@ class UserCollection extends ResourceCollection
         //     });
         // }
 $data = $this->collection->each(function($item){
-    return [$item->followers, $item->followeds];
+    return [$item->followers, $item->followeds, $item->profile];
   });
         return [
             'resultCode' => 0,
