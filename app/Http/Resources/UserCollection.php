@@ -17,17 +17,23 @@ class UserCollection extends ResourceCollection
     public function toArray($request)
     {
         $this->except('updated_at', 'name', 'surname');
-        // $currentUser = Auth::user();
-        // if ($currentUser) {
-           
-        //     $followeds = $currentUser->followeds;
-        //     $resultCollection = $this->collection->each(function ($item, $key, $followeds){
+      
+        $data = $this->collection->each(function ($item) {
+            $currentUser = Auth::user();
+            $id = $currentUser->id;
 
-        //     });
-        // }
-$data = $this->collection->each(function($item){
-    return [$item->followers, $item->followeds, $item->profile];
-  });
+           
+
+            for ($i = 0; $i < $item->followers->count(); $i++) {
+                if($item->followers[$i]->id == $id){
+                    $item->followed = 1;
+                };
+               
+            };
+            
+
+            return [$item->followers, $item->followeds, $item->profile];
+        });
         return [
             'resultCode' => 0,
             'totalCount' =>  $this->collection->count(),

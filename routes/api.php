@@ -67,7 +67,7 @@ Route::get('/user/auth', function () {
   
   $authUser = Auth::user();
   // $id = $auth->id;
-  $userResource = 'not found';
+  $userResource = null;
   if($authUser){
     $userResource = new UserRecource($authUser);
   }
