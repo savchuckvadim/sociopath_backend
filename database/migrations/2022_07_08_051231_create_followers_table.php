@@ -16,7 +16,7 @@ class CreateFollowersTable extends Migration
         Schema::create('followers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('follower_id');
+            $table->foreignId('user_id');
             $table->foreignId('followed_id');
         });
     }

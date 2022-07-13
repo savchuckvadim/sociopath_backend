@@ -31,7 +31,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        
         'remember_token',
     ];
 
@@ -49,17 +48,19 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class, 'user_id');
     }
 
-    public function folllowers()
+    public function followeds()
     {
-        return $this->belongsToMany(User::class, 'followers', 'id', 'follower_id');
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'followed_id');
 
     }
-    public function folllowed()
+    public function followers()
     {
-        return $this->belongsToMany(User::class, 'followers', 'id', 'folllowed_id');
+
+        return $this->belongsToMany(User::class, 'followers', 'followed_id', 'user_id');
 
     }
- 
+
+
 
     protected static function booted()
     {

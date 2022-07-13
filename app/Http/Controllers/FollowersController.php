@@ -12,7 +12,7 @@ class FollowersController extends Controller
     {
 
         $connect = new Followers;
-        $connect->follower_id = $auth_user_id;
+        $connect->user_id = $auth_user_id;
         $connect->followed_id = $followed_id;
         $connect->save();
         $followed_user = User::where('id', $followed_id)->first();

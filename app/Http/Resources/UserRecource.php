@@ -27,7 +27,7 @@ class UserRecource extends JsonResource
     public function with($request)
     {
         return [
-            'resultCode' => 0,
+            'resultCode' => 7,
 
             'links' => [
                 'self' => 'link-value',

@@ -35,11 +35,12 @@ Route::get('/testauth', function(){
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/users', function (Request $request) {
+
     $itemsCount = $request->query('count');
     $paginate = User::paginate($itemsCount);
-    $result = new UserCollection($paginate);
-    // $recourse = new UserRecource(User::all());
-    return $result;
+    $collection = new UserCollection($paginate);
+
+    return $collection;
   
   });
   Route::get('/profile/{userId}', function ($userId) {
