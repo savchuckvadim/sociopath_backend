@@ -65,7 +65,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::get('/user/auth', function () {
   
-  return Auth::user();
+  $authUser = Auth::user();
+  // $id = $auth->id;
+  $userResource = 'not found';
+  if($authUser){
+    $userResource = new UserRecource($authUser);
+  }
+  
+
+  return $userResource;
+ 
 });
 // Route::get('/user/auth', function () {
 //   // if (Auth::user()->data) {

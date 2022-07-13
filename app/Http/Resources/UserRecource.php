@@ -19,6 +19,9 @@ class UserRecource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'followeds' => $this->followeds,
+            'followers' => $this->followers,
+            'profile' => $this->profile,
             // 'created_at' => $this->created_at,
             // 'updated_at' => $this->updated_at,
         ];
@@ -27,7 +30,7 @@ class UserRecource extends JsonResource
     public function with($request)
     {
         return [
-            'resultCode' => 7,
+            'resultCode' => 0,
 
             'links' => [
                 'self' => 'link-value',
