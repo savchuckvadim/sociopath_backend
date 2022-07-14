@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserRecource extends JsonResource
 {
@@ -15,13 +16,24 @@ class UserRecource extends JsonResource
     public function toArray($request)
     {
 
+      
+        $currentUser = Auth::user();
+        $id = $currentUser->id;
+        for ($i = 0; $i < $this->followers->count(); $i++) {
+            if($this->followers[$i]->id == $id){
+                $this->followed = 1;
+            };
+           
+        };
         return [
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
             'followeds' => $this->followeds,
             'followers' => $this->followers,
+            'followed' =>  $this->followed,
             'profile' => $this->profile,
+           
             // 'created_at' => $this->created_at,
             // 'updated_at' => $this->updated_at,
         ];

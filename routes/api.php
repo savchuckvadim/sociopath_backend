@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
   Route::get('/users/{id}', function ($id) {
-    return User::findOrFail($id);
+    return new UserRecource(User::findOrFail($id));
   });
 
   Route::get('/profile/aboutme/{userId}', function ($userId) {
