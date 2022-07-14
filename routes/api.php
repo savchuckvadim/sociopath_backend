@@ -107,6 +107,12 @@ Route::post('/follow', function (Request $request) {
   return FollowersController::follow($currentUserId, $followedId);
 });
 
+Route::delete('/follow/{userId}', function (Request $request) {
+  $currentUserId =  Auth::user()->id;
+  $followedId = $request->userId;
+  return FollowersController::unfollow($currentUserId, $followedId);
+});
+
 
 Route::put('/profile/aboutme', function (Request $request) {
   $aboutMe = $request->aboutMe;

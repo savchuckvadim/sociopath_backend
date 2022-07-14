@@ -27,9 +27,11 @@ class FollowersController extends Controller
         // return  $result;
     }
 
-    public function unfolllow($user_id, $followed)
+    public static function unfollow($user_id, $followed)
     {
 
-        Followers::where('followed', $user_id)->where('follower', $followed)->destroy();
+        
+        Followers::where('user_id', $user_id)->where('followed_id', $followed)->delete();
+        return response('unfollowed', 200);
     }
 }
