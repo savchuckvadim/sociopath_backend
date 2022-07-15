@@ -4,9 +4,11 @@ use App\Http\Controllers\FollowersController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokenController;
+use App\Http\Resources\PostCollection;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserRecource;
 use App\Models\Followers;
+use App\Models\Post;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -84,9 +86,6 @@ Route::get('/user/auth', function () {
 // });
 
 
-Route::get('/user', function (Request $request) {
-  return $request->user();
-});
 
 
 
@@ -132,6 +131,15 @@ Route::put('/profile/aboutme', function (Request $request) {
 ///////////////POSTS
 Route::post('/post', function (Request $request) {
   return PostController::newPost($request);
+});
+Route::get('/post/{profileId}', function ($profileId) {
+  // return PostController::getPosts($profileId);
+
+  
+  $paginate = Post::paginate(5);
+  $collection = new PostCollection($paginate);
+
+  return $collection;
 });
 ////////////////////
 
