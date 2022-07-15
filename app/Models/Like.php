@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'post_id',
+        'author_id'
+        
+    ];
 }

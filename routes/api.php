@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FollowersController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokenController;
 use App\Http\Resources\UserCollection;
@@ -24,7 +25,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
-Route::get('/testauth', function(){
+Route::get('/testauth', function () {
   $result = Auth::user();
   return $result;
 });
@@ -41,11 +42,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     $collection = new UserCollection($paginate);
 
     return $collection;
-  
   });
   Route::get('/profile/{userId}', function ($userId) {
     // $user_id = $request->data->userId;
-  
+
     return ProfileController::getProfile($userId);
   });
 
@@ -57,24 +57,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   Route::get('/profile/aboutme/{userId}', function ($userId) {
     // $user_id = $request->data->userId;
-  
+
     return ProfileController::getAboutMe($userId);
   });
-
 });
 
 Route::get('/user/auth', function () {
-  
+
   $authUser = Auth::user();
   // $id = $auth->id;
   $userResource = null;
-  if($authUser){
+  if ($authUser) {
     $userResource = new UserRecource($authUser);
   }
-  
+
 
   return $userResource;
- 
 });
 // Route::get('/user/auth', function () {
 //   // if (Auth::user()->data) {
@@ -131,9 +129,11 @@ Route::put('/profile/aboutme', function (Request $request) {
 
 
 
-
-
-
+///////////////POSTS
+Route::post('/post', function (Request $request) {
+  return PostController::newPost($request);
+});
+////////////////////
 
 
 
