@@ -141,6 +141,10 @@ Route::get('/post/{profileId}', function ($profileId) {
 
   return $collection;
 });
+
+Route::put('/post', function (Request $request) {
+  return PostController::updatePost($request);
+});
 ////////////////////
 
 

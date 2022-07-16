@@ -29,4 +29,16 @@ class PostController extends Controller
         $collection = new PostCollection($posts);
         return $collection;
     }
+    
+    public static function updatePost(Request $request)
+    {
+        $post = Post::where('id', $request->postId);
+        $post->body = $request->body;
+
+        if ($request->image) {
+            $post->image = $request->image;
+        }
+        $post->save();
+        return $post;
+    }
 }
