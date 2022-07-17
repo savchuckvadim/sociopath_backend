@@ -21,17 +21,25 @@ class FollowersController extends Controller
             $followed_user->followed = 1;
 
 
-            return  $followed_user;
+            // return  $followed_user;
+            return response([
+                'resultCode' => 1,
+                'followedUser' => $followed_user
+            ], 200);
+
         };
         // $result = Followers::where('user_id', $auth_user_id)->first();
         // return  $result;
     }
 
-    public static function unfollow($user_id, $followed)
-    {
-
+    public static function unfollow($user_id, $unfollowed_id)
+    {   
+        Followers::where('user_id', $user_id)->where('followed_id', $unfollowed_id)->delete();
+        $unfollowed_user = User::where('id', $unfollowed_id)->first();
         
-        Followers::where('user_id', $user_id)->where('followed_id', $followed)->delete();
-        return response('unfollowed', 200);
+        return response([
+            'resultCode' => 1,
+            'unfollowedUser' => $unfollowed_user
+        ], 200);
     }
 }

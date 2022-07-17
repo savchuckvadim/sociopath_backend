@@ -12,6 +12,11 @@ class Like extends Model
         'id',
         'post_id',
         'author_id'
-        
+
     ];
+
+    public static function isAuthUserLikes()
+    {
+        
+    }
 }

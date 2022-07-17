@@ -8,6 +8,7 @@ use App\Http\Resources\PostCollection;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserRecource;
 use App\Models\Followers;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -135,7 +136,7 @@ Route::post('/post', function (Request $request) {
 Route::get('/post/{profileId}', function ($profileId) {
   // return PostController::getPosts($profileId);
 
-  
+
   $paginate = Post::paginate(5);
   $collection = new PostCollection($paginate);
 
@@ -144,6 +145,14 @@ Route::get('/post/{profileId}', function ($profileId) {
 
 Route::put('/post', function (Request $request) {
   return PostController::updatePost($request);
+});
+
+Route::post('/like', function (Request $request) {
+  $like = new Like;
+  $like->post_id = $request->postId;
+  $like->author_id = Auth::user()->id;
+  $like->save();
+  return  $like;
 });
 ////////////////////
 
