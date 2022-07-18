@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokenController;
 use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserRecource;
 use App\Models\Followers;
@@ -136,11 +137,11 @@ Route::post('/post', function (Request $request) {
 Route::get('/post/{profileId}', function ($profileId) {
   // return PostController::getPosts($profileId);
 
-
+$posts = Post::where('profile_id', $profileId)->get();
   $paginate = Post::paginate(5);
-  $collection = new PostCollection($paginate);
+  $collection = new PostCollection($posts);
 
-  return $collection;
+  return $collection->values();
 });
 
 Route::put('/post', function (Request $request) {
@@ -152,7 +153,12 @@ Route::post('/like', function (Request $request) {
   $like->post_id = $request->postId;
   $like->author_id = Auth::user()->id;
   $like->save();
-  return  $like;
+
+  return response(([
+      'like' => $like,
+      'resultCode' => 1
+    ]
+  ));
 });
 ////////////////////
 

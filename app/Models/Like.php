@@ -15,8 +15,8 @@ class Like extends Model
 
     ];
 
-    public static function isAuthUserLikes()
+    public function post()
     {
-        
+        return $this->belongsTo(Post::class);
     }
 }

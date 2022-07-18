@@ -16,25 +16,10 @@ class PostCollection extends ResourceCollection
     public function toArray($request)
 
     {
-        $id = $request->profileId;
-        $filtered = $this->collection->where('profile_id', $id);
-
-
-        $posts = $filtered->each(function ($item) {
-            $author = $item->author;
-            $authUserId = Auth::user()->id;
-
-            // $currentLike = $item->likes()->where('author_id', $authUserId)->first();
-            // $isAthLikes = false;
-            // if ($currentLike) {
-            //     $isAthLikes = true;
-            // }
-
-            return [$author];
-        });
+        
         return [
             // 'totalCount' =>  $this->collection->count(),
-            'data' => $posts->values(),
+            'data' =>$this->collection,
 
 
         ];

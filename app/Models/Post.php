@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -14,8 +15,11 @@ class Post extends Model
         'body',
         'image',
         'author_id',
-        'profile_id'
-        
+        'profile_id',
+        // 'isAuthLikes',
+
+
+
     ];
 
     public function author()
@@ -30,7 +34,28 @@ class Post extends Model
 
     public function likes()
     {
-        return $this->belongsToMany(Like::class, 'author_id');
+        return $this->hasMany(Like::class, 'post_id');
     }
-    
+    public function isAuthLikes()
+    {
+        $isLike = false;
+        $authUserId = Auth::user()->id;
+        $likes = $this->likes;
+
+        // foreach($this->likes as $like){
+        //     $count = 0;
+        //     $authUserId = Auth::user()->id;
+        //     if($like->author_id == $authUserId){
+        //         $isLike = true;
+        //     }
+        // };
+        for ($i = 0; $i < $likes->count(); $i++) {
+
+            if ($likes[$i]->author_id == $authUserId) {
+                $isLike = true;
+            }
+        }
+
+        return $isLike;
+    }
 }
