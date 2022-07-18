@@ -20,6 +20,7 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             // 'author_id' => $this->author_id,
+            'body' => $this->body,
             'profile_id' => $this->profile->id,
             'likesCount' => $this->likes->count(),
             'isAuthLikes' => $this->isAuthLikes(),

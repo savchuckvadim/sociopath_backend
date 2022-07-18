@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,8 @@ class PostController extends Controller
             $post->image = $request->image;
         }
         $post->save();
-        return $post;
+        $result = new PostResource($post);
+        return $result;
     }
 
     public static function getPosts($profileId)
