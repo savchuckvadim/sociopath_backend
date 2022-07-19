@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -45,22 +46,17 @@ class ProfileController extends Controller
         return Profile::where('user_id', $user_id)->first();
     }
 
-    public static function getAboutMe($user_id)
+    public static function getAboutMe($userId)
     {
-        return Profile::where('user_id', $user_id)->first()->about_me;
+        $user = User::findOrFail($userId);
+        return response(['resultCode' => 0, 'aboutMe' => $user->profile->about_me]);
     }
     public static function updateAboutMe($aboutMe)
     {
-        if( Auth::user()){
-            $authUserId = Auth::user()->id;
-        }else{
-            $authUserId = 21;
-        }
-       
-        $profile = Profile::where('user_id', $authUserId)->first();
-        $profile->about_me = $aboutMe;
-        $profile->save();
-        return $aboutMe;
+        $user = Auth::user();
+        $user->profile->about_me = $aboutMe;
+        $user->profile->save();
+        return response(['resultCode' => 0, 'updatingProfule' => $user->profile]);
     }
 
     /**

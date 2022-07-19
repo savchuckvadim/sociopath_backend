@@ -59,11 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     return new UserRecource(User::findOrFail($id));
   });
 
-  Route::get('/profile/aboutme/{userId}', function ($userId) {
-    // $user_id = $request->data->userId;
-
-    return ProfileController::getAboutMe($userId);
-  });
+ 
 });
 
 Route::get('/user/auth', function () {
@@ -118,6 +114,11 @@ Route::put('/profile/aboutme', function (Request $request) {
 
   return ProfileController::updateAboutMe($aboutMe);
 });
+Route::get('/profile/aboutme/{userId}', function ($userId) {
+  // $user_id = $request->data->userId;
+
+  return ProfileController::getAboutMe($userId);
+});
 
 
 
@@ -156,6 +157,20 @@ Route::post('/like', function (Request $request) {
 
   return response(([
       'like' => $like,
+      'resultCode' => 1
+    ]
+  ));
+});
+
+Route::delete('/like/{postId}', function ($postId) {
+  $authUserId = Auth::user()->id;
+  $postsLikes = Like::where('post_id', $postId);
+  $like = $postsLikes->where('author_id', $authUserId);
+  $like->delete();
+  $result = Like::where('post_id', $postId);
+
+  return response(([
+      'removedLike' => $like,
       'resultCode' => 1
     ]
   ));
