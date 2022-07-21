@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+// use Illuminate\Support\Facades\Gravatar;
 class ProfileController extends Controller
 {
     /**
@@ -58,6 +58,13 @@ class ProfileController extends Controller
         $user->profile->save();
         return response(['resultCode' => 0, 'updatingProfule' => $user->profile]);
     }
+
+    public static function getGravatar($userId)
+    {
+        $user = User::find($userId);
+        $email = $user->email;
+        Gravatar ::get($email);
+    } 
 
     /**
      * Store a newly created resource in storage.

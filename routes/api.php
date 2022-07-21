@@ -15,6 +15,8 @@ use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -58,8 +60,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/users/{id}', function ($id) {
     return new UserRecource(User::findOrFail($id));
   });
-
- 
 });
 
 Route::get('/user/auth', function () {
@@ -121,7 +121,10 @@ Route::get('/profile/aboutme/{userId}', function ($userId) {
 });
 
 
-
+Route::get('garavatar/{userId}', function ($userId) {
+  $user = User::find($userId)->first();
+  return $user->getAvatarUrl();
+});
 
 
 
@@ -138,7 +141,7 @@ Route::post('/post', function (Request $request) {
 Route::get('/post/{profileId}', function ($profileId) {
   // return PostController::getPosts($profileId);
 
-$posts = Post::where('profile_id', $profileId)->get();
+  $posts = Post::where('profile_id', $profileId)->get();
   $paginate = Post::paginate(5);
   $collection = new PostCollection($posts);
 
@@ -156,9 +159,9 @@ Route::post('/like', function (Request $request) {
   $like->save();
 
   return response(([
-      'like' => $like,
-      'resultCode' => 1
-    ]
+    'like' => $like,
+    'resultCode' => 1
+  ]
   ));
 });
 
@@ -170,9 +173,9 @@ Route::delete('/like/{postId}', function ($postId) {
   $result = Like::where('post_id', $postId);
 
   return response(([
-      'removedLike' => $like,
-      'resultCode' => 1
-    ]
+    'removedLike' => $like,
+    'resultCode' => 1
+  ]
   ));
 });
 ////////////////////

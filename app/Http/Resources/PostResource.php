@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +27,7 @@ class PostResource extends JsonResource
             'isAuthLikes' => $this->isAuthLikes(),
             'likes' => $this->likes,
             'img' => null,
-            'author' => $this->author
+            'author' => new UserRecource (User::findOrFail($this->author_id))
             // 'created_at' => $this->created_at,
             // 'updated_at' => $this->updated_at,
         ];

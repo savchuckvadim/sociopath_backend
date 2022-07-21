@@ -30,8 +30,12 @@ class UserCollection extends ResourceCollection
                 };
                
             };
+            $photos = [
+                'small'=> $item->getAvatarUrl(),
+                'large' => null
+            ];
             
-
+            $item->photos = $photos;
             return [$item->followers, $item->followeds, $item->profile];
         });
         return [

@@ -43,6 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getAvatarUrl(){
+        $hash = md5($this->email);
+        $url = "https://www.gravatar.com/avatar/".$hash."?d=robohash";
+        return $url;
+
+    }
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id');
