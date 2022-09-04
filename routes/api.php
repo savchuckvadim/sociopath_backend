@@ -1,9 +1,11 @@
 <?php
 
+use App\Events\LoginEvent;
 use App\Http\Controllers\FollowersController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\UserController;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserCollection;
@@ -29,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Broadcast;
 
 Route::get('/testauth', function () {
   $result = Auth::user();
@@ -39,8 +41,14 @@ Route::get('/testauth', function () {
 
 
 
+Route::get('/user/auth', function () {
+    return UserController::getAuthUser();
+  });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+
+
   Route::get('/users', function (Request $request) {
 
     $itemsCount = $request->query('count');
@@ -49,6 +57,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     return $collection;
   });
+
+  Route::get('/users/{id}', function ($id) {
+    return new UserRecource(User::findOrFail($id));
+  });
+
+
+
   Route::get('/profile/{userId}', function ($userId) {
     // $user_id = $request->data->userId;
 
@@ -57,23 +72,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 
-  Route::get('/users/{id}', function ($id) {
-    return new UserRecource(User::findOrFail($id));
-  });
+
+
+  Route::get('/testingevent', function(){
+    $user = Auth::user();
+    LoginEvent::dispatch($user);
+    return response([
+        'результат' => 'задиспатчилось'
+    ]);
 });
 
-Route::get('/user/auth', function () {
-
-  $authUser = Auth::user();
-  // $id = $auth->id;
-  $userResource = null;
-  if ($authUser) {
-    $userResource = new UserRecource($authUser);
-  }
-
-
-  return $userResource;
 });
+
+
 // Route::get('/user/auth', function () {
 //   // if (Auth::user()->data) {
 //   //   return Auth::user()->data;
@@ -197,3 +208,7 @@ Route::post('/tokens/create', function (Request $request) {
 
   return ['token' => $token->plainTextToken];
 });
+
+
+
+

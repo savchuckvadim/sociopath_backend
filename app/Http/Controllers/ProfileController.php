@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use App\Models\User;
+use Creativeorange\Gravatar\Facades\Gravatar;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -41,6 +42,13 @@ class ProfileController extends Controller
         return $profile;
     }
 
+    public static function getProfilePage($user_id)
+    {
+        $profile = Profile::where('user_id', $user_id)->first();
+        $aboutMe=$profile->about_me;
+        return response(['resultCode' => 0, 'profile' => $profile,'aboutMe' => $aboutMe]);
+
+    }
     public static function getProfile($user_id)
     {
         return Profile::where('user_id', $user_id)->first();
@@ -63,8 +71,8 @@ class ProfileController extends Controller
     {
         $user = User::find($userId);
         $email = $user->email;
-        Gravatar ::get($email);
-    } 
+        Gravatar::get($email);
+    }
 
     /**
      * Store a newly created resource in storage.

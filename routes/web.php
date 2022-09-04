@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\LoginEvent;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/testingevent', function(){
+    $user = Auth::user();
+    LoginEvent ::dispatch($user);
+    return response([
+        'результат' => 'задиспатчилось'
+    ]);
 });
