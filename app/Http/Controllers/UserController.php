@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
@@ -9,31 +10,31 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public static function getAuthUser(){
+    public static function getAuthUser()
+    {
         $resultCode = 0;
         $authUser = Auth::user();
         $userResource = null;
 
         if ($authUser) {
             $resultCode = 1;
-          $userResource = new UserRecource($authUser);
+            $userResource = new UserRecource($authUser);
 
 
-          return response([
-            'resultCode'=> $resultCode,
-            'authUser' => $userResource
-          ]);
-        }else{
             return response([
-                'resultCode'=> $resultCode,
+                'resultCode' => $resultCode,
+                'authUser' => $userResource
+            ]);
+        } else {
+            return response([
+                'resultCode' => $resultCode,
                 'message' => 'auth user is nod defined !'
-              ]);
-
+            ]);
         }
-
     }
 
-    public static function getUsers($request){
+    public static function getUsers($request)
+    {
         $resultCode = 0;
         $authUser = Auth::user();
 
@@ -44,23 +45,34 @@ class UserController extends Controller
             $paginate = User::paginate($itemsCount);
             $collection = new UserCollection($paginate);
 
-          return response([
-            'resultCode'=> $resultCode,
-            'data' => $collection
-          ]);
+            return response([
+                'resultCode' => $resultCode,
+                'data' => $collection
+            ]);
+        } else {
+            return response([
+                'resultCode' => $resultCode,
+                'message' => 'auth user is nod defined !'
+            ]);
+        }
+    }
 
-
+    public static function getUser($id)
+    {
+        $user = User::findOrFail($id);
+        $resultCode = 0;
+        if ($user) {
+            $resultCode = 1;
+            $userResource = new UserRecource($user);
+            return response([
+                'resultCode' => $resultCode,
+                'user' => $userResource
+            ]);
         }else{
             return response([
-                'resultCode'=> $resultCode,
-                'message' => 'auth user is nod defined !'
-              ]);
-
+                'resultCode' => $resultCode,
+                'message' => 'user not found!'
+            ]);
         }
-
-    }
-    
-    public static function getUser($id){
-        return new UserRecource(User::findOrFail($id));
     }
 }
