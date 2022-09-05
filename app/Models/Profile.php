@@ -14,9 +14,9 @@ class Profile extends Model
         'name',
         'surname',
         'email',
-        
+
     ];
-    
+
 
     public function user(){
        return $this->hasOne(User::class);
@@ -25,5 +25,6 @@ class Profile extends Model
     {
         return $this->hasMany(Post::class, 'profile_id');
     }
+
 
 }

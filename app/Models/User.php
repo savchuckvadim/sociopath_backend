@@ -80,7 +80,7 @@ class User extends Authenticatable
             $profile->name = $user->name;
             $profile->surname = $user->surname;
             $profile->email = $user->email;
-
+            $profile->avatar = $user->getAvatarUrl();
             $profile->save();
             return $profile;
         });
