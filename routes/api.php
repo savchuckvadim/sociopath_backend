@@ -34,8 +34,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
 
 Route::get('/testauth', function () {
-  $result = Auth::user();
-  return $result;
+    $result = Auth::user();
+    return $result;
 });
 
 
@@ -43,36 +43,33 @@ Route::get('/testauth', function () {
 
 Route::get('/user/auth', function () {
     return UserController::getAuthUser();
-  });
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
-  Route::get('/users', function (Request $request) {
-    return UserController::getUsers($request);
-  });
+    Route::get('/users', function (Request $request) {
+        return UserController::getUsers($request);
+    });
 
-  Route::get('/users/{id}', function ($id) {
-    return UserController::getUser($id);
-  });
+    Route::get('/users/{id}', function ($id) {
+        return UserController::getUser($id);
+    });
 
-  Route::get('/profile/{userId}', function ($userId) {
-    // $user_id = $request->data->userId;
-
-    return ProfileController::getProfile($userId);
-  });
+    // Route::get('/profile/{userId}', function ($userId) {
+    //     return ProfileController::getProfile($userId);
+    // });
 
 
 
 
 
-  Route::get('/testingevent', function(){
-    $user = Auth::user();
-    LoginEvent::dispatch($user);
-    return response([
-        'результат' => 'задиспатчилось'
-    ]);
-});
-
+    Route::get('/testingevent', function () {
+        $user = Auth::user();
+        LoginEvent::dispatch($user);
+        return response([
+            'результат' => 'задиспатчилось'
+        ]);
+    });
 });
 
 
@@ -99,33 +96,33 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 Route::post('/follow', function (Request $request) {
-  $currentUserId =  Auth::user()->id;
-  $followedId = $request->userId;
-  return FollowersController::follow($currentUserId, $followedId);
+    $currentUserId =  Auth::user()->id;
+    $followedId = $request->userId;
+    return FollowersController::follow($currentUserId, $followedId);
 });
 
 Route::delete('/follow/{userId}', function (Request $request) {
-  $currentUserId =  Auth::user()->id;
-  $followedId = $request->userId;
-  return FollowersController::unfollow($currentUserId, $followedId);
+    $currentUserId =  Auth::user()->id;
+    $followedId = $request->userId;
+    return FollowersController::unfollow($currentUserId, $followedId);
 });
 
 
 Route::put('/profile/aboutme', function (Request $request) {
-  $aboutMe = $request->aboutMe;
+    $aboutMe = $request->aboutMe;
 
-  return ProfileController::updateAboutMe($aboutMe);
+    return ProfileController::updateAboutMe($aboutMe);
 });
 Route::get('/profile/aboutme/{userId}', function ($userId) {
-  // $user_id = $request->data->userId;
+    // $user_id = $request->data->userId;
 
-  return ProfileController::getAboutMe($userId);
+    return ProfileController::getAboutMe($userId);
 });
 
 
 Route::get('garavatar/{userId}', function ($userId) {
-  $user = User::find($userId)->first();
-  return $user->getAvatarUrl();
+    $user = User::find($userId)->first();
+    return $user->getAvatarUrl();
 });
 
 
@@ -138,47 +135,47 @@ Route::get('garavatar/{userId}', function ($userId) {
 
 ///////////////POSTS
 Route::post('/post', function (Request $request) {
-  return PostController::newPost($request);
+    return PostController::newPost($request);
 });
 Route::get('/post/{profileId}', function ($profileId) {
-  // return PostController::getPosts($profileId);
+    // return PostController::getPosts($profileId);
 
-  $posts = Post::where('profile_id', $profileId)->get();
-  $paginate = Post::paginate(5);
-  $collection = new PostCollection($posts);
+    $posts = Post::where('profile_id', $profileId)->get();
+    $paginate = Post::paginate(5);
+    $collection = new PostCollection($posts);
 
-  return $collection->values();
+    return $collection->values();
 });
 
 Route::put('/post', function (Request $request) {
-  return PostController::updatePost($request);
+    return PostController::updatePost($request);
 });
 
 Route::post('/like', function (Request $request) {
-  $like = new Like;
-  $like->post_id = $request->postId;
-  $like->author_id = Auth::user()->id;
-  $like->save();
+    $like = new Like;
+    $like->post_id = $request->postId;
+    $like->author_id = Auth::user()->id;
+    $like->save();
 
-  return response(([
-    'like' => $like,
-    'resultCode' => 1
-  ]
-  ));
+    return response(([
+        'like' => $like,
+        'resultCode' => 1
+    ]
+    ));
 });
 
 Route::delete('/like/{postId}', function ($postId) {
-  $authUserId = Auth::user()->id;
-  $postsLikes = Like::where('post_id', $postId);
-  $like = $postsLikes->where('author_id', $authUserId);
-  $like->delete();
-  $result = Like::where('post_id', $postId);
+    $authUserId = Auth::user()->id;
+    $postsLikes = Like::where('post_id', $postId);
+    $like = $postsLikes->where('author_id', $authUserId);
+    $like->delete();
+    $result = Like::where('post_id', $postId);
 
-  return response(([
-    'removedLike' => $like,
-    'resultCode' => 1
-  ]
-  ));
+    return response(([
+        'removedLike' => $like,
+        'resultCode' => 1
+    ]
+    ));
 });
 ////////////////////
 
@@ -191,15 +188,11 @@ Route::post('/sanctum/token', TokenController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-  return $request->user();
+    return $request->user();
 });
 
 Route::post('/tokens/create', function (Request $request) {
-  $token = $request->user()->createToken($request->token_name);
+    $token = $request->user()->createToken($request->token_name);
 
-  return ['token' => $token->plainTextToken];
+    return ['token' => $token->plainTextToken];
 });
-
-
-
-

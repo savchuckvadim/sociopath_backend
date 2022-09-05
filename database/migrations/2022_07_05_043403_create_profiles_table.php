@@ -17,11 +17,12 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             // $table->foreignId('avatar_id');
+            $table->string('avatar')->nullable();
             $table->string('hero')->nullable();
             $table->text('about_me', 300)->nullable();
             $table->string('name');
             $table->string('surname');
-            $table->string('email');  
+            $table->string('email');
             $table->timestamps();
         });
     }
