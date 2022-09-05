@@ -47,17 +47,13 @@ Route::get('/user/auth', function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
-
-
   Route::get('/users', function (Request $request) {
     return UserController::getUsers($request);
   });
 
   Route::get('/users/{id}', function ($id) {
-    return new UserRecource(User::findOrFail($id));
+    return UserController::getUser($id);
   });
-
-
 
   Route::get('/profile/{userId}', function ($userId) {
     // $user_id = $request->data->userId;

@@ -59,4 +59,8 @@ class UserController extends Controller
         }
 
     }
+    
+    public static function getUser($id){
+        return new UserRecource(User::findOrFail($id));
+    }
 }
