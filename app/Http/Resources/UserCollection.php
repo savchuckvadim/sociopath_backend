@@ -17,24 +17,24 @@ class UserCollection extends ResourceCollection
     public function toArray($request)
     {
         $this->except('updated_at', 'name', 'surname');
-      
+
         $data = $this->collection->each(function ($item) {
             $currentUser = Auth::user();
             $id = $currentUser->id;
 
-           
+
 
             for ($i = 0; $i < $item->followers->count(); $i++) {
                 if($item->followers[$i]->id == $id){
                     $item->followed = 1;
                 };
-               
+
             };
             $photos = [
                 'small'=> $item->getAvatarUrl(),
                 'large' => null
             ];
-            
+
             $item->photos = $photos;
             return [$item->followers, $item->followeds, $item->profile];
         });
@@ -43,7 +43,7 @@ class UserCollection extends ResourceCollection
             'totalCount' =>  $this->collection->count(),
 
             // 'data' => $result_collection,
-            'data' => $data,
+            'users' => $data,
 
 
             // 'links' => [

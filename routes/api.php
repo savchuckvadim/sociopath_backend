@@ -50,12 +50,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
   Route::get('/users', function (Request $request) {
-
-    $itemsCount = $request->query('count');
-    $paginate = User::paginate($itemsCount);
-    $collection = new UserCollection($paginate);
-
-    return $collection;
+    return UserController::getUsers($request);
   });
 
   Route::get('/users/{id}', function ($id) {
