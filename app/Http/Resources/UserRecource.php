@@ -34,10 +34,7 @@ class UserRecource extends JsonResource
             'followed' =>  $this->followed,
             'profile' => $this->profile,
            'postsCount' => $this->posts->count(),
-           'photos' => [
-            'small' => null,
-            'large' => null
-           ]
+           
             // 'created_at' => $this->created_at,
             // 'updated_at' => $this->updated_at,
         ];
