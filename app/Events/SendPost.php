@@ -33,6 +33,6 @@ class SendPost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('send-post');
+        return new PrivateChannel('send-post', $this->post);
     }
 }

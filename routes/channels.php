@@ -19,6 +19,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     // return (int) $user->id === (int) $id;
     return true;
 });
+// Broadcast::channel('channel', function () {
+//     // ...
+// }, ['guards' => ['web']]);
 
 // Broadcast ::routes(['middleware' => ['auth:sanctum']]);
 Broadcast::channel('test-chanel.{userId}', function ($user, $userId) {
@@ -27,4 +30,4 @@ Broadcast::channel('test-chanel.{userId}', function ($user, $userId) {
 
 Broadcast::channel('send-post', function () {
     return true;
-});
+}, ['guards' => ['web']]);
