@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendPost;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
@@ -22,6 +23,9 @@ class PostController extends Controller
         }
         $post->save();
         $result = new PostResource($post);
+        //DISPATCH EVENT
+        SendPost::dispatch($post);
+
         return $result;
     }
 
@@ -35,7 +39,7 @@ class PostController extends Controller
         $collection = new PostCollection($posts);
         return $collection;
     }
-    
+
     public static function updatePost(Request $request)
     {
         $post = Post::where('id', $request->postId);

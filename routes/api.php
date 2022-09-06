@@ -7,16 +7,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\PostCollection;
-use App\Http\Resources\PostResource;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserRecource;
-use App\Models\Followers;
 use App\Models\Like;
 use App\Models\Post;
-use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
 
 
 /*
@@ -29,9 +26,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Broadcast;
+
 
 Route::get('/testauth', function () {
     $result = Auth::user();
@@ -39,7 +34,7 @@ Route::get('/testauth', function () {
 });
 
 
-
+Broadcast ::routes(['middleware' => ['auth:sanctum']]);
 
 Route::get('/user/auth', function () {
     return UserController::getAuthUser();
