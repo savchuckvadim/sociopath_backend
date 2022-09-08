@@ -12,9 +12,10 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
-
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,13 +35,34 @@ Route::get('/testauth', function () {
 });
 
 
-Broadcast ::routes(['middleware' => ['auth:sanctum']]);
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
+// Route::post('/sanctum/token', function (Request $request) {
+//     $request->validate([
+//         'email' => 'required|email',
+//         'password' => 'required',
+//     ]);
+
+//     $user = User::where('email', $request->email)->first();
+
+//     if (! $user || ! Hash::check($request->password, $user->password)) {
+//         throw ValidationException::withMessages([
+//             'email' => ['The provided credentials are incorrect.'],
+//         ]);
+//     }
+
+//     return $user->createToken($request->email)->plainTextToken;
+// });
+
 
 Route::get('/user/auth', function () {
     return UserController::getAuthUser();
 });
 
+
 Route::middleware(['auth:sanctum'])->group(function () {
+    
+    Route::post('/sanctum/token', TokenController::class);
 
     Route::get('/users', function (Request $request) {
         return UserController::getUsers($request);
@@ -179,7 +201,7 @@ Route::delete('/like/{postId}', function ($postId) {
 
 
 
-Route::post('/sanctum/token', TokenController::class);
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -45,10 +45,7 @@ class UserController extends Controller
             $paginate = User::paginate($itemsCount);
             $collection = new UserCollection($paginate);
 
-            return response([
-                'resultCode' => $resultCode,
-                'data' => $collection
-            ]);
+            return  $collection;
         } else {
             return response([
                 'resultCode' => $resultCode,
@@ -68,7 +65,7 @@ class UserController extends Controller
                 'resultCode' => $resultCode,
                 'user' => $userResource
             ]);
-        }else{
+        } else {
             return response([
                 'resultCode' => $resultCode,
                 'message' => 'user not found!'

@@ -25,13 +25,12 @@ class UserCollection extends ResourceCollection
 
 
             for ($i = 0; $i < $item->followers->count(); $i++) {
-                if($item->followers[$i]->id == $id){
+                if ($item->followers[$i]->id == $id) {
                     $item->followed = 1;
                 };
-
             };
             $photos = [
-                'small'=> $item->getAvatarUrl(),
+                'small' => $item->getAvatarUrl(),
                 'large' => null
             ];
 
@@ -39,16 +38,18 @@ class UserCollection extends ResourceCollection
             return [$item->followers, $item->followeds, $item->profile];
         });
         return [
-            'resultCode' => 0,
+
             'totalCount' =>  $this->collection->count(),
 
             // 'data' => $result_collection,
-            'users' => $data,
+            'users' => $this->collection,
+            'resultCode' => 1,
 
+            // 'data' => $this->collection,
 
-            // 'links' => [
-            //     'self' => 'link-value',
-            // ]
+            'links' => [
+                'self' => 'link-value',
+            ]
         ];
     }
 }

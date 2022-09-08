@@ -40,6 +40,6 @@ class users extends Seeder
     // );
       
 
-      return $user->count(20)->create();
+      return $user->count(1220)->create();
     }
 }
