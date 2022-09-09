@@ -47,20 +47,12 @@ class Post extends Model
         $isLike = false;
         $authUserId = Auth::user()->id;
         $likes = $this->likes;
+        $authLikes = $likes->where('author_id', $authUserId);
 
-        // foreach($this->likes as $like){
-        //     $count = 0;
-        //     $authUserId = Auth::user()->id;
-        //     if($like->author_id == $authUserId){
-        //         $isLike = true;
-        //     }
-        // };
-        for ($i = 0; $i < $likes->count(); $i++) {
-
-            if ($likes[$i]->author_id == $authUserId) {
+            if (count($authLikes) > 0) {
                 $isLike = true;
             }
-        }
+     
 
         return $isLike;
     }
