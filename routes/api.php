@@ -2,6 +2,7 @@
 
 use App\Events\LoginEvent;
 use App\Http\Controllers\FollowersController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokenController;
@@ -169,30 +170,11 @@ Route::put('/post', function (Request $request) {
 });
 
 Route::post('/like', function (Request $request) {
-    $like = new Like;
-    $like->post_id = $request->postId;
-    $like->author_id = Auth::user()->id;
-    $like->save();
-
-    return response(([
-        'like' => $like,
-        'resultCode' => 1
-    ]
-    ));
+   return LikeController::setLike($request->postId);
 });
 
 Route::delete('/like/{postId}', function ($postId) {
-    $authUserId = Auth::user()->id;
-    $postsLikes = Like::where('post_id', $postId);
-    $like = $postsLikes->where('author_id', $authUserId);
-    $like->delete();
-    $result = Like::where('post_id', $postId);
-
-    return response(([
-        'removedLike' => $like,
-        'resultCode' => 1
-    ]
-    ));
+    return LikeController::deleteLike($postId);
 });
 ////////////////////
 
