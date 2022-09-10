@@ -31,11 +31,17 @@ class PostController extends Controller
 
     public static function getPosts($profileId)
     {
-        $posts = Post::where('profile_id', $profileId)-get();
+        $posts = Post::where('profile_id', $profileId)->get();
         $collection = new PostCollection($posts);
-        return $collection;
+
+      
+        return response([
+            'resultCode' => 1,
+            'posts' => $collection->values()
+        ]);
     }
 
+    // TODO at frontend
     public static function updatePost(Request $request)
     {
         $post = Post::where('id', $request->postId);

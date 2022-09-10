@@ -17,8 +17,14 @@ class UserRecource extends JsonResource
     {
 
 
+        $isAuthUser = false;
         $currentUser = Auth::user();
         $id = $currentUser->id;
+
+        if ($id === $this->id) {
+            $isAuthUser = true;
+        }
+
         for ($i = 0; $i < $this->followers->count(); $i++) {
             if ($this->followers[$i]->id == $id) {
                 $this->followed = 1;
@@ -33,7 +39,7 @@ class UserRecource extends JsonResource
             'followed' =>  $this->followed,
             'profile' => $this->profile,
             'postsCount' => $this->posts->count(),
-
+            'isAuthUser' => $isAuthUser
             // 'created_at' => $this->created_at,
             // 'updated_at' => $this->updated_at,
         ];
@@ -42,7 +48,7 @@ class UserRecource extends JsonResource
     public function with($request)
     {
         return [
-            'resultCode' => 0,
+            'resultCode' => 1,
 
             'links' => [
                 'self' => 'link-value',
