@@ -31,11 +31,7 @@ class PostController extends Controller
 
     public static function getPosts($profileId)
     {
-        $posts = Post::where('profile_id', $profileId);
-        $authUserId = Auth::user()->id;
-        // $posts->foreach(function(post){
-        //     if($post->)
-        // });
+        $posts = Post::where('profile_id', $profileId)-get();
         $collection = new PostCollection($posts);
         return $collection;
     }

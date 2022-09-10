@@ -62,7 +62,7 @@ Route::get('/user/auth', function () {
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    
+
     Route::post('/sanctum/token', TokenController::class);
 
     Route::get('/users', function (Request $request) {
@@ -73,6 +73,29 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return UserController::getUser($id);
     });
 
+    ///////////////POSTS
+    Route::post('/post', function (Request $request) {
+        return PostController::newPost($request);
+    });
+    Route::get('/post/{profileId}', function ($profileId) {
+        return PostController::getPosts($profileId);
+    });
+
+    Route::put('/post', function (Request $request) {
+        return PostController::updatePost($request);
+    });
+
+    Route::post('/like', function (Request $request) {
+        return LikeController::setLike($request->postId);
+    });
+
+    Route::delete('/like/{postId}', function ($postId) {
+        return LikeController::deleteLike($postId);
+    });
+
+
+
+    
     // Route::get('/profile/{userId}', function ($userId) {
     //     return ProfileController::getProfile($userId);
     // });
@@ -151,31 +174,7 @@ Route::get('garavatar/{userId}', function ($userId) {
 
 
 
-///////////////POSTS
-Route::post('/post', function (Request $request) {
-    return PostController::newPost($request);
-});
-Route::get('/post/{profileId}', function ($profileId) {
-    // return PostController::getPosts($profileId);
 
-    $posts = Post::where('profile_id', $profileId)->get();
-    $paginate = Post::paginate(5);
-    $collection = new PostCollection($posts);
-
-    return $collection->values();
-});
-
-Route::put('/post', function (Request $request) {
-    return PostController::updatePost($request);
-});
-
-Route::post('/like', function (Request $request) {
-   return LikeController::setLike($request->postId);
-});
-
-Route::delete('/like/{postId}', function ($postId) {
-    return LikeController::deleteLike($postId);
-});
 ////////////////////
 
 

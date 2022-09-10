@@ -19,12 +19,11 @@ class UserController extends Controller
         if ($authUser) {
             $resultCode = 1;
             $userResource = new UserRecource($authUser);
-
-
             return response([
                 'resultCode' => $resultCode,
                 'authUser' => $userResource
             ]);
+
         } else {
             return response([
                 'resultCode' => $resultCode,
@@ -38,14 +37,13 @@ class UserController extends Controller
         $resultCode = 0;
         $authUser = Auth::user();
 
-
         if ($authUser) {
             $resultCode = 1;
             $itemsCount = $request->query('count');
             $paginate = User::paginate($itemsCount);
             $collection = new UserCollection($paginate);
-
             return  $collection;
+
         } else {
             return response([
                 'resultCode' => $resultCode,
