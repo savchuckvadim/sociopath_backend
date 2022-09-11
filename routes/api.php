@@ -95,15 +95,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 
-    
-    // Route::get('/profile/{userId}', function ($userId) {
-    //     return ProfileController::getProfile($userId);
-    // });
-
-
-
-
-
     Route::get('/testingevent', function () {
         $user = Auth::user();
         LoginEvent::dispatch($user);
@@ -114,26 +105,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 
-// Route::get('/user/auth', function () {
-//   // if (Auth::user()->data) {
-//   //   return Auth::user()->data;
-//   // } else {
-//   //   return false;
-//   // }
-//   return Auth::user();
-// });
-
-
-
-
-
-
 //Follow Unfollow
-
-// Route::get('/follow/{id}', function ($id) {
-//   // $currentUserId =  Auth::user()->id;
-//   return FollowersController::follow(1, $id);
-// });
 
 
 Route::post('/follow', function (Request $request) {
