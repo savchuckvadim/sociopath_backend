@@ -32,7 +32,6 @@ class UserRecource extends JsonResource
         };
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'email' => $this->email,
             'followeds' => $this->followeds,
             'followers' => $this->followers,
@@ -50,9 +49,6 @@ class UserRecource extends JsonResource
         return [
             'resultCode' => 1,
 
-            'links' => [
-                'self' => 'link-value',
-            ]
         ];
     }
 }
