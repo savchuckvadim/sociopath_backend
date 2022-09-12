@@ -23,7 +23,7 @@ class PostController extends Controller
         }
         $post->save();
         $result = new PostResource($post);
-        //DISPATCH EVENT
+//DISPATCH EVENT
         SendPost::dispatch($post);
 
         return $result;

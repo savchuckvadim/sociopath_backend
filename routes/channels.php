@@ -28,6 +28,9 @@ Broadcast::channel('test-chanel.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId;
 });
 
+// Broadcast::channel('send-post', function () {
+//     return true;
+// }, ['guards' => ['web']]);
 Broadcast::channel('send-post', function () {
     return true;
-}, ['guards' => ['web']]);
+});
