@@ -62,12 +62,20 @@ Route::get('/user/auth', function () {
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+
+    ///////////////TOKENS
+
     Route::post('/tokens/create', function (Request $request) {
         $token = $request->user()->createToken($request->token_name);
-    
+
         return ['token' => $token->plainTextToken];
     });
     Route::post('/sanctum/token', TokenController::class);
+
+
+
+    ///////////////USERS
 
     Route::get('/users', function (Request $request) {
         return UserController::getUsers($request);
@@ -76,8 +84,36 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/{id}', function ($id) {
         return UserController::getUser($id);
     });
+    Route::post('/follow', function (Request $request) {
+        $currentUserId =  Auth::user()->id;
+        $followedId = $request->userId;
+        return FollowersController::follow($currentUserId, $followedId);
+    });
+
+    Route::delete('/follow/{userId}', function (Request $request) {
+        $currentUserId =  Auth::user()->id;
+        $followedId = $request->userId;
+        return FollowersController::unfollow($currentUserId, $followedId);
+    });
+
+
+
+    ///////////////PROFILE
+
+    Route::get('/profile/aboutme/{userId}', function ($userId) {
+        return ProfileController::getAboutMe($userId);
+    });
+    
+    Route::put('/profile/aboutme', function (Request $request) {
+        $aboutMe = $request->aboutMe;
+        return ProfileController::updateAboutMe($aboutMe);
+    });
+
+
+
 
     ///////////////POSTS
+
     Route::post('/post', function (Request $request) {
         return PostController::newPost($request);
     });
@@ -99,6 +135,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 
+
+
     Route::get('/testingevent', function () {
         $user = Auth::user();
         LoginEvent::dispatch($user);
@@ -112,29 +150,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //Follow Unfollow
 
 
-Route::post('/follow', function (Request $request) {
-    $currentUserId =  Auth::user()->id;
-    $followedId = $request->userId;
-    return FollowersController::follow($currentUserId, $followedId);
-});
 
-Route::delete('/follow/{userId}', function (Request $request) {
-    $currentUserId =  Auth::user()->id;
-    $followedId = $request->userId;
-    return FollowersController::unfollow($currentUserId, $followedId);
-});
-
-
-Route::put('/profile/aboutme', function (Request $request) {
-    $aboutMe = $request->aboutMe;
-
-    return ProfileController::updateAboutMe($aboutMe);
-});
-Route::get('/profile/aboutme/{userId}', function ($userId) {
-    // $user_id = $request->data->userId;
-
-    return ProfileController::getAboutMe($userId);
-});
 
 
 Route::get('garavatar/{userId}', function ($userId) {
@@ -164,5 +180,3 @@ Route::get('garavatar/{userId}', function ($userId) {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-

@@ -23,10 +23,15 @@ class PostController extends Controller
         }
         $post->save();
         $result = new PostResource($post);
+
 //DISPATCH EVENT
         SendPost::dispatch($post);
 
-        return $result;
+       
+        return response([
+            'resultCode' => 1,
+            'post' => $result
+        ]);
     }
 
     public static function getPosts($profileId)
