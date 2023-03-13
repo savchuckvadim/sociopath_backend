@@ -16,6 +16,8 @@ class CreateDialogsTable extends Migration
         Schema::create('dialogs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('name')->nullable();
+            $table->boolean('isGroup')->default(false);
         });
     }
 

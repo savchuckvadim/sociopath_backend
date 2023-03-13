@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\LoginEvent;
+use App\Http\Controllers\DialogController;
 use App\Http\Controllers\FollowersController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
@@ -78,6 +79,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ///////////////USERS
 
     Route::get('/users', function (Request $request) {
+        
         return UserController::getUsers($request);
     });
 
@@ -103,7 +105,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile/aboutme/{userId}', function ($userId) {
         return ProfileController::getAboutMe($userId);
     });
-    
+
     Route::put('/profile/aboutme', function (Request $request) {
         $aboutMe = $request->aboutMe;
         return ProfileController::updateAboutMe($aboutMe);
@@ -135,7 +137,74 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 
+    //DIALOGS
 
+    Route::get('dialogs', function () {
+        //
+        return UserController::getDialogs();
+    });
+
+    Route::get('dialog/{userId}', function ($userId) {
+        //dialogId
+        return DialogController::getOrCreateDialog($userId);
+    });
+
+    // Route::post('group-dialog', function (Request $request) {
+    //     //$users, $dialogsName, $isGroup, id?=null if null->add else -> edit
+    //     return DialogController::addGroupDialog($request, true);
+    // });
+
+    // Route::put('sound-dialog', function (Request $request) {
+    //     //$dialogId, $isSound
+    //     return DialogController::updateSound($request->dialogId, $request->isSound);
+    // });
+
+    // Route::delete('dialog/{dialogId}', function ($dialogId) {
+    //     $dialog = Dialog::find($dialogId);
+    //     if ($dialog) {
+    //         $controller = new DialogController($dialog);
+    //         return $controller->destroy($dialog);
+    //     };
+    //     return DialogController::getDialog($dialogId);
+    // });
+
+
+
+    //MESSAGES
+
+    // Route::post('message', function (Request $request) {
+    //     //dialogId, body, isForwarded, isEdited
+    //     return MessageController::create($request->dialogId, $request->body, $request->isForwarded, $request->isEdited);
+    // });
+    // Route::put('message', function (Request $request) {
+    //     //dialogId, body, isForwarded, isEdited
+
+    //     return MessageController::edit($request->messageId, $request->body);
+    // });
+    // Route::delete('message/{messageId}', function ($messageId) {
+    //     //messageId
+
+    //     return MessageController::destroy($messageId);
+    // });
+
+
+    // Route::get('messages/{dialogId}', function ($dialogId) {
+    //     $dialog = Dialog::find($dialogId);
+    //     $messages = null;
+    //     if ($dialog) {
+    //         $messages = DialogController::getMessages($dialog);
+    //         return response([
+    //             'resultCode' => 1,
+    //             'messages' => $messages,
+
+    //         ]);
+    //     } else {
+    //         return response([
+    //             'resultCode' => 1,
+    //             'messages' => []
+    //         ]);
+    //     }
+    // });
 
     Route::get('/testingevent', function () {
         $user = Auth::user();

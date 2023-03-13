@@ -70,7 +70,39 @@ class User extends Authenticatable
         return $this->hasMany(Post::class, 'author_id');
     }
 
+    public function dialogs()
+    {
+        return $this->belongsToMany(Dialog::class, 'user_dialogs', 'user_id', 'dialog_id');
+    }
 
+
+
+    // public function getDialogs()
+    // {
+    //     $dialogs = $this->dialogs;
+    //     $notGroupDialogs = [];
+    //     foreach ($dialogs as $dialog) {
+    //         if (!$dialog->isGroup) {
+    //             array_push($notGroupDialogs, $dialog);
+    //             //7
+    //         }
+    //     }
+    //     return $notGroupDialogs;
+    // }
+
+    // public function isDialogExistInNotGroupDialogs($dialogId)
+    // {
+    //     $isExist = null;
+    //     // $existDialogsIds = [];
+    //     $dialogs = $this->getNotGroupDialogs();
+    //     foreach ($dialogs as $dialog) {
+    //         if ((int)$dialog->id == (int) $dialogId) {
+    //             $isExist = $dialogId;
+    //             // array_push($existDialogsIds, $dialog->id);
+    //         }
+    //     }
+    //     return $isExist;
+    // }
 
     protected static function booted()
     {

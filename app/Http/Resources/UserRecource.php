@@ -13,6 +13,8 @@ class UserRecource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+    protected $followed = 0;
     public function toArray($request)
     {
 

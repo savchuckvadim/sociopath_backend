@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DialogResource;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserRecource;
 use App\Models\User;
@@ -23,7 +24,6 @@ class UserController extends Controller
                 'resultCode' => $resultCode,
                 'authUser' => $userResource
             ]);
-
         } else {
             return response([
                 'resultCode' => $resultCode,
@@ -43,7 +43,6 @@ class UserController extends Controller
             $paginate = User::paginate($itemsCount);
             $collection = new UserCollection($paginate);
             return  $collection;
-
         } else {
             return response([
                 'resultCode' => $resultCode,
@@ -69,5 +68,31 @@ class UserController extends Controller
                 'message' => 'user not found!'
             ]);
         }
+    }
+
+    public static function getDialogs()
+    {
+        $user = Auth::user();
+        $touchUser = User::find($user->id);
+        $touchUser->touch();
+        $dialogs = $user->dialogs;
+        $resultDialogs = [];
+
+
+        foreach ($dialogs as $dialog) {
+
+
+                $resultDialog = new DialogResource($dialog);
+                array_push($resultDialogs, $resultDialog);
+
+        }
+        return response([
+            'resultCode' => 1,
+            'dialogs' => array_reverse($resultDialogs),
+            '$user->dialogs;'=> $user->dialogs
+            // 'groupDialogs' => array_reverse($resultGroupDialogs),
+
+
+        ]);
     }
 }
