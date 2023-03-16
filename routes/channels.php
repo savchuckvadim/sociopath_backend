@@ -35,7 +35,7 @@ Broadcast::channel('send-post', function () {
     return true;
 });
 
-Broadcast::channel('chat', function ($user) {
+Broadcast::channel('socio-chat', function ($user) {
     return $user->id;
 });
 

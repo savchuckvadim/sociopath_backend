@@ -35,7 +35,7 @@ class Presence
     {
         // return new PrivateChannel('channel-name');
 
-        return new PresenceChannel('room' . $this->message->room_id);
+        return new PresenceChannel('socio-chat' . $this->user->id);
     }
 
 }

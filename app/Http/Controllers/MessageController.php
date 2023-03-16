@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendMessage;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Models\User;
@@ -15,7 +16,7 @@ class MessageController extends Controller
         //dialogId, body, isForwarded, isEdited
         $author = Auth::user();
         $touchUser = User::find($author->id);
-        // $touchUser->touch();
+        $touchUser->touch();
         $message = new Message();
         $message->dialog_id = $dialogId;
         $message->body = $body;
@@ -28,9 +29,9 @@ class MessageController extends Controller
 
         //DISPATCH EVENT
         $recipients = $message->recipients();
-        // foreach ($recipients as $recipient) {
-        //     SendMessage::dispatch($message, $recipient->id);
-        // }
+        foreach ($recipients as $recipient) {
+            SendMessage::dispatch($message, $recipient->id);
+        }
 
 
         //SEND NOTIFICATION
