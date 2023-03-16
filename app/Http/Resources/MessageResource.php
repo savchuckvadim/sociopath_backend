@@ -17,13 +17,13 @@ class MessageResource extends JsonResource
      */
     public function toArray($request)
     {
-      
+
         $dialog = Dialog::find($this->dialog_id);
         $isGroup = $dialog->isGroup;
 
 
         $author = User::find($this->author_id);
-        $resultAuthor = new UserResource($author);
+        $resultAuthor = new UserRecource($author);
 
         return [
             'id' => $this->id,

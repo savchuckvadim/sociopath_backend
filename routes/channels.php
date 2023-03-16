@@ -34,3 +34,15 @@ Broadcast::channel('test-chanel.{userId}', function ($user, $userId) {
 Broadcast::channel('send-post', function () {
     return true;
 });
+
+Broadcast::channel('chat', function ($user) {
+    return $user->id;
+});
+
+Broadcast::channel('new-message.{userId}', function ($user) {
+
+    $authUser = Auth::user();
+    $authUserId = $authUser->id;
+
+    return (int) $authUserId === (int) $user->id;
+});

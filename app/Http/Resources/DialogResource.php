@@ -21,32 +21,24 @@ class DialogResource extends JsonResource
         $dialogsUsers = $this->users;
         $dialogsMessages = $this->messages;
         $isSound = false;
-        $dialogsUser = null;
+        $participant = null;
         $relation = UserDialog::where('user_id', $user->id)->where('dialog_id', $this->id)->first();
         $isSound = $relation->isSound;
-        // if (count($relations) > 0) {
-        //     $isSound = $relations[0]->isSound;
-        // }
-        // $userId = null;
+
         foreach ($dialogsUsers as $dialogsUser) {
             if ($dialogsUser->id !== $user->id) {
                 // $userId = $dialogsUser->id;
-                $dialogsUser = new UserRecource($dialogsUser);
+                $participant = new UserRecource($dialogsUser);
             }
         }
 
 
         return [
             'id' => $this->id,
-            // 'userId'=> $userId,
-            // 'dialogName' => $this->name,
-            // 'isGroup' => $this->isGroup,
             'isSound' => $isSound,
-            'participant' => $dialogsUser,
+            'participant' => $participant,
             'messages' => new MessageCollection($dialogsMessages),
-            // '$relation' => $relation,
-            // '$request' => $request
-
+  
         ];
     }
 }

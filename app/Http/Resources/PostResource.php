@@ -27,8 +27,8 @@ class PostResource extends JsonResource
             'isAuthLikes' => $this->isAuthLikes(),
             // 'likes' => $this->likes,
             'img' => null,
-            'author' => new UserRecource (User::findOrFail($this->author_id))
-            // 'created_at' => $this->created_at,
+            'author' => new UserRecource (User::findOrFail($this->author_id)),
+            'created' => $this->created_at,
             // 'updated_at' => $this->updated_at,
         ];
     }

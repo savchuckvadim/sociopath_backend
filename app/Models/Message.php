@@ -53,6 +53,7 @@ class Message extends Model
         $this->save();
         return $this;
     }
+    
     public function receivesBroadcastNotificationsOn()
     {
         return 'new-message';

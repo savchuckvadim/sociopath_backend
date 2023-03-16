@@ -4,6 +4,7 @@ use App\Events\LoginEvent;
 use App\Http\Controllers\DialogController;
 use App\Http\Controllers\FollowersController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokenController;
@@ -79,7 +80,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ///////////////USERS
 
     Route::get('/users', function (Request $request) {
-        
+
         return UserController::getUsers($request);
     });
 
@@ -172,10 +173,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //MESSAGES
 
-    // Route::post('message', function (Request $request) {
-    //     //dialogId, body, isForwarded, isEdited
-    //     return MessageController::create($request->dialogId, $request->body, $request->isForwarded, $request->isEdited);
-    // });
+    Route::post('message', function (Request $request) {
+        //dialogId, body, isForwarded, isEdited
+        return MessageController::create($request->dialogId, $request->body, $request->isForwarded, $request->isEdited);
+    });
     // Route::put('message', function (Request $request) {
     //     //dialogId, body, isForwarded, isEdited
 
