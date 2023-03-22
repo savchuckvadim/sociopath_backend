@@ -20,7 +20,7 @@ class SendMessage  implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
-
+    public $recipientId;
 
     public $isSound;
 
@@ -83,13 +83,13 @@ class SendMessage  implements ShouldBroadcast
 
 
                 if ($relationIsSound && $recipientIsSound) {
-                    $this->message->isSound = true;
+                    // $this->message->isSound = true;
                     $this->message->save();
                 }
             }
 
             $resultMessage = new MessageResource($this->message->id);
-            $resultMessage->isSound = true;
+            // $resultMessage->isSound = true;
             $channel = new PrivateChannel(
                 'new-message.' . $recipient->id,
                 [

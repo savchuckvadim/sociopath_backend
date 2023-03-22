@@ -70,7 +70,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/tokens/create', function (Request $request) {
         $token = $request->user()->createToken($request->token_name);
-
         return ['token' => $token->plainTextToken];
     });
     Route::post('/sanctum/token', TokenController::class);
@@ -80,13 +79,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ///////////////USERS
 
     Route::get('/users', function (Request $request) {
-
         return UserController::getUsers($request);
     });
 
     Route::get('/users/{id}', function ($id) {
         return UserController::getUser($id);
     });
+
     Route::post('/follow', function (Request $request) {
         $currentUserId =  Auth::user()->id;
         $followedId = $request->userId;
@@ -172,6 +171,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     //MESSAGES
+
+    Route::get('/messages', function (Request $request) {
+        return MessageController::getMessages($request);
+    });
 
     Route::post('message', function (Request $request) {
         //dialogId, body, isForwarded, isEdited

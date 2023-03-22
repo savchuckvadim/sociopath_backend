@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\SendMessage;
+use App\Http\Resources\MessageCollection;
 use App\Http\Resources\MessageResource;
+use App\Models\Dialog;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,5 +46,34 @@ class MessageController extends Controller
             'createdMessage' => new MessageResource($message),
 
         ]);
+    }
+
+    public static function getMessages($request)
+    // $request=>dialogId
+    // currentPage
+    // pageSize
+    {
+        $resultCode = 0;
+        $authUser = Auth::user();
+
+        if ($authUser) {
+            $resultCode = 1;
+
+            $itemsCount = $request->query('count');
+            $dialogId = $request->query('dialogId');
+
+            $paginate =  Message::where('dialog_id', $dialogId)->cursorPaginate($itemsCount);
+            $collection = new MessageCollection($paginate);
+            return response([
+                'resultCode' => $resultCode,
+                'messages' => $collection,
+
+            ]);
+        } else {
+            return response([
+                'resultCode' => $resultCode,
+                'message' => 'auth user is nod defined !'
+            ]);
+        }
     }
 }
