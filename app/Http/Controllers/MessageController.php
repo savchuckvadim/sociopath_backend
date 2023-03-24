@@ -61,14 +61,13 @@ class MessageController extends Controller
 
             $itemsCount = $request->query('count');
             $dialogId = $request->query('dialogId');
-
-            $paginate =  Message::where('dialog_id', $dialogId)->cursorPaginate($itemsCount);
+            $paginate =  Message::where('dialog_id', $dialogId)->orderBy('created_at', 'desc')->paginate($itemsCount);
             $collection = new MessageCollection($paginate);
             return response([
                 'resultCode' => $resultCode,
                 'messages' => $collection,
-
             ]);
+
         } else {
             return response([
                 'resultCode' => $resultCode,
